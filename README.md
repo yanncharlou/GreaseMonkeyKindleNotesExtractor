@@ -4,9 +4,9 @@ Extract Kindle Notes to Markdown format suitable for Obsidian.
 ## How to use
 1. Make sure you have user scripts enabled in your browser (these instructions refer to the latest versions of the browser):
 
-	* [Greasemonkey](https://addons.mozilla.org/firefox/addon/greasemonkey/)
-  * [Tampermonkey](https://www.tampermonkey.net/) (proprietary)
-	* [Violentmonkey](https://violentmonkey.github.io/get-it/)
+ * [Greasemonkey](https://addons.mozilla.org/firefox/addon/greasemonkey/)
+ * [Tampermonkey](https://www.tampermonkey.net/) (proprietary)
+ * [Violentmonkey](https://violentmonkey.github.io/get-it/)
 	
   Scripts are only tested on Greasemonkey but should work on others.
   
