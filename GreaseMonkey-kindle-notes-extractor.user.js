@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Kindle notes extractor
-// @version 1.0.0
+// @version 1.0.1
 // @description Extract notes from kindle to markdown format suitable for Obsidian.
 // @author Yann Charlou
 // @grant none
