@@ -1,21 +1,22 @@
 // ==UserScript==
-// @name     		Kindle notes extractor
-// @version  		1.0.0
+// @name Kindle notes extractor
+// @version 1.0.0
 // @description Extract notes from kindle to markdown format suitable for Obsidian.
-// @license			GPL V3
-// @author      Yann Charlou
-// @grant    		none
-// @include  		https://read.amazon.com/notebook/*
-// @updateURL   https://raw.githubusercontent.com/yanncharlou/GreaseMonkeyKindleNotesExtractor/main/GreaseMonkey-kindle-notes-extractor.user.js
+// @author Yann Charlou
+// @grant none
+// @include https://read.amazon.com/notebook/*
+// @include https://read.amazon.com/notebook?*
+// @include https://read.amazon.com/notebook
+// @updateURL https://raw.githubusercontent.com/yanncharlou/GreaseMonkeyKindleNotesExtractor/main/GreaseMonkey-kindle-notes-extractor.user.js
 // @downloadURL https://raw.githubusercontent.com/yanncharlou/GreaseMonkeyKindleNotesExtractor/main/GreaseMonkey-kindle-notes-extractor.user.js
-// @supportURL  https://github.com/yanncharlou/GreaseMonkeyKindleNotesExtractor/issues
 // ==/UserScript==
 
 (function() {
     'use strict';
   
+  	console.log("Kindle notes extractor : start");
+  
   	function initKindleExtractor(){
-      console.log("Kindle notes extractor : launched");
 
       var range = document.createRange();
       var btnFragment = range.createContextualFragment("<input type='button' id='extract-to-md-btn' value='Extraire les notes'/>");
@@ -24,6 +25,9 @@
 
 
       document.getElementById("extract-to-md-btn").addEventListener("click", extractKindleNotes); 
+      
+      console.log("Kindle notes extractor : launched");
+
     }
   
   
@@ -39,19 +43,20 @@
         var highlight = getHighlight(note);
         var location = getLocation(note);
         var noteTxt = getNote(note);
+        var link = getMDLinkToNote(note);
         
         
         if(noteTxt){
           txtOutput += "\n- " + noteTxt;
-          if(location){
-          	txtOutput += "*(Loc kindle: "+location+')*';
-	        }
+          if(link){
+            txtOutput += link;
+          }
         }
         if(highlight){
           txtOutput += "\n- > " + highlight.replace("\n","\n> ");
-          if(location){
-          	txtOutput += " *(Loc kindle: "+location+')*';
-	        }
+          if(link){
+            txtOutput += link;
+          }
         }
         
 			});
@@ -76,6 +81,30 @@
       }
 
       return '';
+    }
+  
+  	function getBookASIN(){
+      let asinInput = document.getElementById('kp-notebook-annotations-asin');
+      if(asinInput){
+        return asinInput.value;
+      }
+      return false;
+    }
+  
+  	function getMDLinkToNote(note){
+      let url = getDirectUrlToNote(note);
+      let loc = getLocation(note);
+
+      if(url && loc){
+        return ' [kindle loc '+ loc +']('+ url +')';
+      }
+      return '';
+    }
+  
+  	function getDirectUrlToNote(note){
+      let location = getLocation(note);
+      let asin = getBookASIN();
+      return 'kindle://book?action=open&asin='+ asin +'&location=' + location;
     }
   
   	function getHighlight(note){
@@ -111,3 +140,6 @@
   	setTimeout(() => {  initKindleExtractor(); }, 1000);
   
 })();
+
+
+
